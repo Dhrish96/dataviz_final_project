@@ -30,7 +30,7 @@ I proceeded to select the columns that were relevant for creating graphs. The nu
 
 **Finding the Most Popular Class of Car**
 
-![Graph for Most Popular Class of Car](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\popular_class.png)
+![Graph for Most Popular Class of Car](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/popular_class.png)
 
 The above graph is created using a new sub-data set derived from the original data set. The graph displays the number of different class of cars in the data set.
 The main three class of cars that are popular in order are:
@@ -46,9 +46,9 @@ Originally a scatter plot was tried but it was found to be too clustered and was
 
 **Choosing the most popular make of car**
 
-![Graph for Most Popular Car Make](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\car_make.png)
+![Graph for Most Popular Car Make](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/car_make.png)
 
-In the above graph, the three popular class of car are selected. The class of cars are then filtered to form a new second sub-dataset and a histogram of the Make of the car vs the total number of car in the respective make is displayed.
+In the above graph, the three popular class of car are selected. The class of cars are then filtered to form a new second sub-dataset and a stacked bar graph of the Make of the car vs the total number of car in the respective make is displayed.The total number of count of each class of car is displayed on the respective bar in the figure.
 The most popular make of car is found to be **BMW**.
 
 *RBrewColor Package* is used to display colors other than the default colors used in graphs.Theme function is made use of to display the text on x-axis to be more legible. 
@@ -61,11 +61,12 @@ Originally a pie chart was tried but as there are too many fields pie chart was 
 
 **The most used type of fuel**
 
-![Graph for Most Used Fuel Type](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\fuel_type.png)
+![Graph for Most Used Fuel Type](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/fuel_type.png)
 In the above displayed graph, the most popular car make "BMW" is used to create a new data set having BMW sub-compact, compact and mid size car information.This is used to find out the type of fuel used. The classification of class of cars are distinguished with the help of colors.
-In conclusion, it is found that **Premium type of Fuel** is the most used Fuel in BMW cars, followed by Regular fuel and Diesel and the number of Subcompact cars utilize more premium fuel.
+In conclusion, it is found that **Premium type of Fuel** is the most used Fuel in BMW cars, followed by Regular fuel and Diesel and the number of Subcompact cars utilize more premium fuel. 
 
-*scale_fill_brewer* is used to assign the Spectral color palette to the graph.The x and y axis are appropriately labelled with the help og labs function.
+*scale_fill_brewer* is used to assign the Spectral color palette to the graph.The x and y axis are appropriately labelled with the help og labs function. 
+*facet_wrap* is used on the class is used to create multi-panel plots.
 
 Originally a bar graph without color palette was tried but adding class data provided more information.
 
@@ -75,7 +76,7 @@ Originally a bar graph without color palette was tried but adding class data pro
 
 **The Annual Cost of Premium fuel**
 
-![Graph for cost of premium fuel](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\premium_fuel.png)
+![Graph for cost of premium fuel](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/premium_fuel.png)
 
 The above graph displays the Boxplot of the Annual cost of premium fuel for BMW cars (sub-compact, compact, and mid size car). It is found that the Compact cars have lower annual median cost of fuel.
 
