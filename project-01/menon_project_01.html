@@ -23,7 +23,7 @@ install.packages("RColorBrewer")
 ## package 'RColorBrewer' successfully unpacked and MD5 sums checked
 ## 
 ## The downloaded binary packages are in
-##  C:\Users\dhris\AppData\Local\Temp\RtmpU9SB93\downloaded_packages
+##  C:\Users\dhris\AppData\Local\Temp\RtmpOgNXWy\downloaded_packages
 library("RColorBrewer")
 
 # Load original data
@@ -374,19 +374,6 @@ str(pop_class_make)
 ##   ..- attr(*, "names")= chr [1:11] "781" "938" "18562" "18735" ...
 unique(pop_class_make$class)
 ## [1] "Subcompact Cars" "Compact Cars"    "Midsize Cars"
-pop_class_make %>%
-  ggplot( aes(x = fuel_type, fill=class)) +
-  geom_bar() + 
-  scale_fill_brewer(palette="Dark2") +
-  coord_flip()+
-  theme(legend.title = element_blank(), legend.position="bottom")+
-  theme_minimal()+
-  labs(title = "Most Used Fuel Type",
-       subtitle ="Top three Class of Cars of the BMW Make",
-       x = "Type of Fuel",
-       y = "Total Count of Cars") 
-
-
 ggplot(pop_class_make, aes(x = fuel_type, fill=class))+
   geom_bar()+
   coord_flip()+
