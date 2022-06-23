@@ -1,0 +1,439 @@
+Data Visualization Mini-Project 1
+Dhrishya Menon - dmenon2337@floridapoly.edu
+2022-06-05
+The Dataset chosen for the Mini Project is “1984-2017 fuel economy data produced during vehicle testing at the Environmental Protection Agency’s (EPA) National Vehicle and Fuel Emissions Laboratory” Fuel Data
+
+Loading the relevant packages and libraries:
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+
+library(tidyverse)
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+install.packages("RColorBrewer")                   
+## Installing package into 'C:/Users/dhris/AppData/Local/R/win-library/4.2'
+## (as 'lib' is unspecified)
+## package 'RColorBrewer' successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\dhris\AppData\Local\Temp\RtmpU9SB93\downloaded_packages
+library("RColorBrewer")
+
+# Load original data
+fuel_data <- read_csv("C:/Users/dhris/OneDrive/Desktop/Notes/Data Visualization/Dhrishya_MiniProject1/data/fuel.csv")
+## Rows: 38113 Columns: 81
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (11): make, model, class, drive, transmission, transmission_type, engine...
+## dbl (59): vehicle_id, year, engine_index, engine_cylinders, engine_displacem...
+## lgl (11): turbocharger, supercharger, fuel_type_2, gas_guzzler_tax, start_st...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Displaying the columns
+
+str(fuel_data)
+## spec_tbl_df [38,113 × 81] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ vehicle_id                       : num [1:38113] 26587 27705 26561 27681 27550 ...
+##  $ year                             : num [1:38113] 1984 1984 1984 1984 1984 ...
+##  $ make                             : chr [1:38113] "Alfa Romeo" "Alfa Romeo" "Alfa Romeo" "Alfa Romeo" ...
+##  $ model                            : chr [1:38113] "GT V6 2.5" "GT V6 2.5" "Spider Veloce 2000" "Spider Veloce 2000" ...
+##  $ class                            : chr [1:38113] "Minicompact Cars" "Minicompact Cars" "Two Seaters" "Two Seaters" ...
+##  $ drive                            : chr [1:38113] NA NA NA NA ...
+##  $ transmission                     : chr [1:38113] "Manual 5-Speed" "Manual 5-Speed" "Manual 5-Speed" "Manual 5-Speed" ...
+##  $ transmission_type                : chr [1:38113] NA NA NA NA ...
+##  $ engine_index                     : num [1:38113] 9001 9005 9002 9006 1830 ...
+##  $ engine_descriptor                : chr [1:38113] "(FFS)" "(FFS) CA model" "(FFS)" "(FFS) CA model" ...
+##  $ engine_cylinders                 : num [1:38113] 6 6 4 4 4 4 6 6 6 6 ...
+##  $ engine_displacement              : num [1:38113] 2.5 2.5 2 2 2.5 2.5 4.2 4.2 4.2 4.2 ...
+##  $ turbocharger                     : logi [1:38113] NA NA NA NA NA NA ...
+##  $ supercharger                     : logi [1:38113] NA NA NA NA NA NA ...
+##  $ fuel_type                        : chr [1:38113] "Regular" "Regular" "Regular" "Regular" ...
+##  $ fuel_type_1                      : chr [1:38113] "Regular Gasoline" "Regular Gasoline" "Regular Gasoline" "Regular Gasoline" ...
+##  $ fuel_type_2                      : logi [1:38113] NA NA NA NA NA NA ...
+##  $ city_mpg_ft1                     : num [1:38113] 17 17 18 18 18 18 13 13 15 15 ...
+##  $ unrounded_city_mpg_ft1           : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ city_mpg_ft2                     : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ unrounded_city_mpg_ft2           : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ city_gasoline_consumption_cd     : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ city_electricity_consumption     : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ city_utility_factor              : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_mpg_ft1                  : num [1:38113] 24 24 25 25 17 17 13 13 20 19 ...
+##  $ unrounded_highway_mpg_ft1        : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_mpg_ft2                  : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ unrounded_highway_mpg_ft2        : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_gasoline_consumption_cd  : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_electricity_consumption  : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_utility_factor           : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ unadjusted_city_mpg_ft1          : num [1:38113] 21 21 23 23 22 22 16 16 19 19 ...
+##  $ unadjusted_highway_mpg_ft1       : num [1:38113] 34 34 35 35 24 24 18 18 27 26 ...
+##  $ unadjusted_city_mpg_ft2          : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ unadjusted_highway_mpg_ft2       : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ combined_mpg_ft1                 : num [1:38113] 20 20 21 21 17 17 13 13 17 17 ...
+##  $ unrounded_combined_mpg_ft1       : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ combined_mpg_ft2                 : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ unrounded_combined_mpg_ft2       : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ combined_electricity_consumption : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ combined_gasoline_consumption_cd : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ combined_utility_factor          : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ annual_fuel_cost_ft1             : num [1:38113] 1750 1750 1650 1650 2050 2050 2700 2700 2050 2050 ...
+##  $ annual_fuel_cost_ft2             : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ gas_guzzler_tax                  : logi [1:38113] NA NA NA NA NA NA ...
+##  $ save_or_spend_5_year             : num [1:38113] -2000 -2000 -1500 -1500 -3500 -3500 -6750 -6750 -3500 -3500 ...
+##  $ annual_consumption_in_barrels_ft1: num [1:38113] 16.5 16.5 15.7 15.7 19.4 ...
+##  $ annual_consumption_in_barrels_ft2: num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ tailpipe_co2_ft1                 : num [1:38113] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+##  $ tailpipe_co2_in_grams_mile_ft1   : num [1:38113] 444 444 423 423 523 ...
+##  $ tailpipe_co2_ft2                 : num [1:38113] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+##  $ tailpipe_co2_in_grams_mile_ft2   : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ fuel_economy_score               : num [1:38113] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+##  $ ghg_score                        : num [1:38113] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+##  $ ghg_score_alt_fuel               : num [1:38113] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+##  $ my_mpg_data                      : chr [1:38113] "N" "N" "N" "N" ...
+##  $ x2d_passenger_volume             : num [1:38113] 74 74 0 0 0 0 0 0 0 0 ...
+##  $ x2d_luggage_volume               : num [1:38113] 7 7 0 0 0 0 0 0 0 0 ...
+##  $ x4d_passenger_volume             : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ x4d_luggage_volume               : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ hatchback_passenger_volume       : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ hatchback_luggage_volume         : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ start_stop_technology            : logi [1:38113] NA NA NA NA NA NA ...
+##  $ alternative_fuel_technology      : chr [1:38113] NA NA NA NA ...
+##  $ electric_motor                   : logi [1:38113] NA NA NA NA NA NA ...
+##  $ manufacturer_code                : logi [1:38113] NA NA NA NA NA NA ...
+##  $ gasoline_electricity_blended_cd  : logi [1:38113] FALSE FALSE FALSE FALSE FALSE FALSE ...
+##  $ vehicle_charger                  : logi [1:38113] NA NA NA NA NA NA ...
+##  $ alternate_charger                : logi [1:38113] NA NA NA NA NA NA ...
+##  $ hours_to_charge_120v             : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ hours_to_charge_240v             : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ hours_to_charge_ac_240v          : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ composite_city_mpg               : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ composite_highway_mpg            : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ composite_combined_mpg           : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ range_ft1                        : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ city_range_ft1                   : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_range_ft1                : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ range_ft2                        : logi [1:38113] NA NA NA NA NA NA ...
+##  $ city_range_ft2                   : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ highway_range_ft2                : num [1:38113] 0 0 0 0 0 0 0 0 0 0 ...
+##  - attr(*, "spec")=
+##   .. cols(
+##   ..   vehicle_id = col_double(),
+##   ..   year = col_double(),
+##   ..   make = col_character(),
+##   ..   model = col_character(),
+##   ..   class = col_character(),
+##   ..   drive = col_character(),
+##   ..   transmission = col_character(),
+##   ..   transmission_type = col_character(),
+##   ..   engine_index = col_double(),
+##   ..   engine_descriptor = col_character(),
+##   ..   engine_cylinders = col_double(),
+##   ..   engine_displacement = col_double(),
+##   ..   turbocharger = col_logical(),
+##   ..   supercharger = col_logical(),
+##   ..   fuel_type = col_character(),
+##   ..   fuel_type_1 = col_character(),
+##   ..   fuel_type_2 = col_logical(),
+##   ..   city_mpg_ft1 = col_double(),
+##   ..   unrounded_city_mpg_ft1 = col_double(),
+##   ..   city_mpg_ft2 = col_double(),
+##   ..   unrounded_city_mpg_ft2 = col_double(),
+##   ..   city_gasoline_consumption_cd = col_double(),
+##   ..   city_electricity_consumption = col_double(),
+##   ..   city_utility_factor = col_double(),
+##   ..   highway_mpg_ft1 = col_double(),
+##   ..   unrounded_highway_mpg_ft1 = col_double(),
+##   ..   highway_mpg_ft2 = col_double(),
+##   ..   unrounded_highway_mpg_ft2 = col_double(),
+##   ..   highway_gasoline_consumption_cd = col_double(),
+##   ..   highway_electricity_consumption = col_double(),
+##   ..   highway_utility_factor = col_double(),
+##   ..   unadjusted_city_mpg_ft1 = col_double(),
+##   ..   unadjusted_highway_mpg_ft1 = col_double(),
+##   ..   unadjusted_city_mpg_ft2 = col_double(),
+##   ..   unadjusted_highway_mpg_ft2 = col_double(),
+##   ..   combined_mpg_ft1 = col_double(),
+##   ..   unrounded_combined_mpg_ft1 = col_double(),
+##   ..   combined_mpg_ft2 = col_double(),
+##   ..   unrounded_combined_mpg_ft2 = col_double(),
+##   ..   combined_electricity_consumption = col_double(),
+##   ..   combined_gasoline_consumption_cd = col_double(),
+##   ..   combined_utility_factor = col_double(),
+##   ..   annual_fuel_cost_ft1 = col_double(),
+##   ..   annual_fuel_cost_ft2 = col_double(),
+##   ..   gas_guzzler_tax = col_logical(),
+##   ..   save_or_spend_5_year = col_double(),
+##   ..   annual_consumption_in_barrels_ft1 = col_double(),
+##   ..   annual_consumption_in_barrels_ft2 = col_double(),
+##   ..   tailpipe_co2_ft1 = col_double(),
+##   ..   tailpipe_co2_in_grams_mile_ft1 = col_double(),
+##   ..   tailpipe_co2_ft2 = col_double(),
+##   ..   tailpipe_co2_in_grams_mile_ft2 = col_double(),
+##   ..   fuel_economy_score = col_double(),
+##   ..   ghg_score = col_double(),
+##   ..   ghg_score_alt_fuel = col_double(),
+##   ..   my_mpg_data = col_character(),
+##   ..   x2d_passenger_volume = col_double(),
+##   ..   x2d_luggage_volume = col_double(),
+##   ..   x4d_passenger_volume = col_double(),
+##   ..   x4d_luggage_volume = col_double(),
+##   ..   hatchback_passenger_volume = col_double(),
+##   ..   hatchback_luggage_volume = col_double(),
+##   ..   start_stop_technology = col_logical(),
+##   ..   alternative_fuel_technology = col_character(),
+##   ..   electric_motor = col_logical(),
+##   ..   manufacturer_code = col_logical(),
+##   ..   gasoline_electricity_blended_cd = col_logical(),
+##   ..   vehicle_charger = col_logical(),
+##   ..   alternate_charger = col_logical(),
+##   ..   hours_to_charge_120v = col_double(),
+##   ..   hours_to_charge_240v = col_double(),
+##   ..   hours_to_charge_ac_240v = col_double(),
+##   ..   composite_city_mpg = col_double(),
+##   ..   composite_highway_mpg = col_double(),
+##   ..   composite_combined_mpg = col_double(),
+##   ..   range_ft1 = col_double(),
+##   ..   city_range_ft1 = col_double(),
+##   ..   highway_range_ft1 = col_double(),
+##   ..   range_ft2 = col_logical(),
+##   ..   city_range_ft2 = col_double(),
+##   ..   highway_range_ft2 = col_double()
+##   .. )
+##  - attr(*, "problems")=<externalptr>
+The Four Main Graphs which have been visualized are as follows:
+Graph for the Most Popular Class of Car
+Graph for the Most Popular Make of Car
+Graph for Most Fuel type used in the most popular make of car
+Graph for Annual Cost of Fuel used in the most popular make of car
+We select the required columns and create a new sub-dataset from the original dataset
+
+fuel_data_new <- fuel_data %>%
+  select(year, class, make, transmission, fuel_type, city_mpg_ft1, highway_mpg_ft1, combined_mpg_ft1, annual_fuel_cost_ft1)
+Displaying the Column Names of the new sub-dataset
+
+str(fuel_data_new)
+## tibble [38,113 × 9] (S3: tbl_df/tbl/data.frame)
+##  $ year                : num [1:38113] 1984 1984 1984 1984 1984 ...
+##  $ class               : chr [1:38113] "Minicompact Cars" "Minicompact Cars" "Two Seaters" "Two Seaters" ...
+##  $ make                : chr [1:38113] "Alfa Romeo" "Alfa Romeo" "Alfa Romeo" "Alfa Romeo" ...
+##  $ transmission        : chr [1:38113] "Manual 5-Speed" "Manual 5-Speed" "Manual 5-Speed" "Manual 5-Speed" ...
+##  $ fuel_type           : chr [1:38113] "Regular" "Regular" "Regular" "Regular" ...
+##  $ city_mpg_ft1        : num [1:38113] 17 17 18 18 18 18 13 13 15 15 ...
+##  $ highway_mpg_ft1     : num [1:38113] 24 24 25 25 17 17 13 13 20 19 ...
+##  $ combined_mpg_ft1    : num [1:38113] 20 20 21 21 17 17 13 13 17 17 ...
+##  $ annual_fuel_cost_ft1: num [1:38113] 1750 1750 1650 1650 2050 2050 2700 2700 2050 2050 ...
+Checking for any Null Values present in the sub-dataset
+
+sum(is.na(fuel_data_new$year))
+## [1] 0
+sum(is.na(fuel_data_new$class))
+## [1] 0
+sum(is.na(fuel_data_new$make))
+## [1] 0
+sum(is.na(fuel_data_new$transmission))
+## [1] 11
+sum(is.na(fuel_data_new$fuel_type))
+## [1] 0
+sum(is.na(fuel_data_new$city_mpg_ft1))
+## [1] 0
+sum(is.na(fuel_data_new$highway_mpg_ft1))
+## [1] 0
+sum(is.na(fuel_data_new$combined_mpg_ft1))
+## [1] 0
+sum(is.na(fuel_data_new$annual_fuel_cost_ft1))
+## [1] 0
+Summarizing the columns
+
+summary(fuel_data_new)
+##       year         class               make           transmission      
+##  Min.   :1984   Length:38113       Length:38113       Length:38113      
+##  1st Qu.:1991   Class :character   Class :character   Class :character  
+##  Median :2001   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :2000                                                           
+##  3rd Qu.:2009                                                           
+##  Max.   :2017                                                           
+##   fuel_type          city_mpg_ft1    highway_mpg_ft1  combined_mpg_ft1
+##  Length:38113       Min.   :  6.00   Min.   :  9.00   Min.   :  7.00  
+##  Class :character   1st Qu.: 15.00   1st Qu.: 20.00   1st Qu.: 17.00  
+##  Mode  :character   Median : 17.00   Median : 24.00   Median : 19.00  
+##                     Mean   : 17.98   Mean   : 24.08   Mean   : 20.22  
+##                     3rd Qu.: 20.00   3rd Qu.: 27.00   3rd Qu.: 23.00  
+##                     Max.   :150.00   Max.   :122.00   Max.   :136.00  
+##  annual_fuel_cost_ft1
+##  Min.   : 500        
+##  1st Qu.:1600        
+##  Median :1950        
+##  Mean   :1971        
+##  3rd Qu.:2350        
+##  Max.   :6050
+nrow(fuel_data_new)
+## [1] 38113
+fuel_data_new <- na.omit(fuel_data_new)
+sum(is.na(fuel_data_new$transmission))
+## [1] 0
+First Data Visualization
+Finding the Most Popular Class of Car
+
+ggplot(fuel_data_new, aes(y = class)) +
+  geom_bar(color="green") +
+  theme_classic() +
+  
+  labs(title = "The Most Popular Class of Car",
+       x = "Count",
+       y = "Class of the Car",
+       caption = "Source: fuel_data_new Dataset")
+
+
+Second Data Visualization
+Choosing the popular make of car and filtering it according to class of cars to plot the Histogram
+
+pop_class <- c("Subcompact Cars", "Midsize Cars", "Compact Cars")
+
+pop_class <- fuel_data_new %>% 
+      filter(class %in% pop_class)
+
+pop_class %>%
+  ggplot(aes(x = make, fill=class)) +
+  geom_bar(position = "stack") + 
+  stat_count(geom = "text", aes(label = ..count..), vjust = 1.5, size=3) +
+  theme(axis.text.x = element_text(angle = 90),legend.text = element_text(size=7), legend.position="none") +
+  scale_fill_brewer(palette="Paired") +
+  labs(title = "The Make of the Cars",
+       subtitle ="Top three Class of Cars",
+       x = "Make of the Car",
+       y = "Total Count") 
+
+
+Counting the make of each class of car
+
+pop_class %>%
+  count(make, class) 
+## # A tibble: 154 × 3
+##    make             class               n
+##    <chr>            <chr>           <int>
+##  1 Acura            Compact Cars       91
+##  2 Acura            Midsize Cars       58
+##  3 Acura            Subcompact Cars    66
+##  4 Alfa Romeo       Compact Cars       13
+##  5 Alfa Romeo       Midsize Cars        3
+##  6 Alfa Romeo       Subcompact Cars     9
+##  7 ASC Incorporated Midsize Cars        1
+##  8 Aston Martin     Subcompact Cars    34
+##  9 Audi             Compact Cars      193
+## 10 Audi             Midsize Cars      184
+## # … with 144 more rows
+Third Data Visualization
+Choosing the most used type of fuel in the car make “BMW” and plotting the Barchart
+
+pop_make <- c("BMW")
+
+pop_class_make <- pop_class %>% 
+      filter(make %in% pop_make)
+
+summary(pop_class_make)
+##       year         class               make           transmission      
+##  Min.   :1984   Length:1113        Length:1113        Length:1113       
+##  1st Qu.:2000   Class :character   Class :character   Class :character  
+##  Median :2009   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :2006                                                           
+##  3rd Qu.:2014                                                           
+##  Max.   :2017                                                           
+##   fuel_type          city_mpg_ft1    highway_mpg_ft1  combined_mpg_ft1
+##  Length:1113        Min.   :  9.00   Min.   : 15.00   Min.   : 12.0   
+##  Class :character   1st Qu.: 15.00   1st Qu.: 22.00   1st Qu.: 18.0   
+##  Mode  :character   Median : 17.00   Median : 25.00   Median : 20.0   
+##                     Mean   : 18.08   Mean   : 25.87   Mean   : 20.8   
+##                     3rd Qu.: 19.00   3rd Qu.: 28.00   3rd Qu.: 22.0   
+##                     Max.   :137.00   Max.   :111.00   Max.   :124.0   
+##  annual_fuel_cost_ft1
+##  Min.   : 550        
+##  1st Qu.:1850        
+##  Median :2100        
+##  Mean   :2088        
+##  3rd Qu.:2250        
+##  Max.   :3500
+str(pop_class_make)
+## tibble [1,113 × 9] (S3: tbl_df/tbl/data.frame)
+##  $ year                : num [1:1113] 1984 1984 1984 1984 1984 ...
+##  $ class               : chr [1:1113] "Subcompact Cars" "Subcompact Cars" "Subcompact Cars" "Subcompact Cars" ...
+##  $ make                : chr [1:1113] "BMW" "BMW" "BMW" "BMW" ...
+##  $ transmission        : chr [1:1113] "Automatic 3-Speed" "Automatic 3-Speed" "Automatic 4-Speed" "Automatic 4-Speed" ...
+##  $ fuel_type           : chr [1:1113] "Regular" "Regular" "Regular" "Regular" ...
+##  $ city_mpg_ft1        : num [1:1113] 21 21 18 18 21 18 21 18 18 15 ...
+##  $ highway_mpg_ft1     : num [1:1113] 24 24 25 25 27 26 27 26 24 22 ...
+##  $ combined_mpg_ft1    : num [1:1113] 23 23 20 20 24 21 24 21 20 18 ...
+##  $ annual_fuel_cost_ft1: num [1:1113] 1500 1500 1750 1750 1450 1650 1450 1650 1750 1950 ...
+##  - attr(*, "na.action")= 'omit' Named int [1:11] 781 938 18562 18735 19132 19182 19468 19645 20063 20613 ...
+##   ..- attr(*, "names")= chr [1:11] "781" "938" "18562" "18735" ...
+unique(pop_class_make$class)
+## [1] "Subcompact Cars" "Compact Cars"    "Midsize Cars"
+pop_class_make %>%
+  ggplot( aes(x = fuel_type, fill=class)) +
+  geom_bar() + 
+  scale_fill_brewer(palette="Dark2") +
+  coord_flip()+
+  theme(legend.title = element_blank(), legend.position="bottom")+
+  theme_minimal()+
+  labs(title = "Most Used Fuel Type",
+       subtitle ="Top three Class of Cars of the BMW Make",
+       x = "Type of Fuel",
+       y = "Total Count of Cars") 
+
+
+ggplot(pop_class_make, aes(x = fuel_type, fill=class))+
+  geom_bar()+
+  coord_flip()+
+  scale_fill_brewer(palette="Dark2") +
+  theme_minimal()+
+  theme(legend.title = element_blank(), legend.position="bottom")+
+  labs(title = "Most Used Fuel Type",
+       subtitle ="Top three Class of Cars of the BMW Make",
+       x = "Type of Fuel",
+       y = "Total Count of Cars") +
+  
+  facet_wrap(~class)
+
+
+Fourth Data Visualization
+Choosing the Premium type of fuel and plotting the Boxplot for displaying the Annual cost of Fuel
+
+pop_fuel <- c("Premium")
+
+pop_cla_mak_fuel <- pop_class_make %>% 
+      filter(fuel_type %in% pop_fuel)
+summary(pop_cla_mak_fuel)
+##       year         class               make           transmission      
+##  Min.   :1987   Length:913         Length:913         Length:913        
+##  1st Qu.:2005   Class :character   Class :character   Class :character  
+##  Median :2010   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :2009                                                           
+##  3rd Qu.:2014                                                           
+##  Max.   :2017                                                           
+##   fuel_type          city_mpg_ft1   highway_mpg_ft1 combined_mpg_ft1
+##  Length:913         Min.   : 9.00   Min.   :17.00   Min.   :12.00   
+##  Class :character   1st Qu.:15.00   1st Qu.:23.00   1st Qu.:18.00   
+##  Mode  :character   Median :17.00   Median :26.00   Median :20.00   
+##                     Mean   :17.46   Mean   :25.77   Mean   :20.36   
+##                     3rd Qu.:19.00   3rd Qu.:28.00   3rd Qu.:22.00   
+##                     Max.   :25.00   Max.   :35.00   Max.   :28.00   
+##  annual_fuel_cost_ft1
+##  Min.   :1500        
+##  1st Qu.:1900        
+##  Median :2100        
+##  Mean   :2135        
+##  3rd Qu.:2350        
+##  Max.   :3500
+unique(pop_cla_mak_fuel$fuel_type)
+## [1] "Premium"
+ggplot(data = pop_cla_mak_fuel) + 
+  geom_boxplot(mapping=aes(y=annual_fuel_cost_ft1, group=class, fill=class))+
+  labs(title = "Annual Premium Fuel Cost for Cars",
+       subtitle ="Top three Class of Cars of BMW Make",
+       y = "Cost of Fuel in $")  
