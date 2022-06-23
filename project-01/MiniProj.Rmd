@@ -1,0 +1,173 @@
+---
+title: "Data Visualization Mini-Project 1"
+author: "Dhrishya Menon - dmenon2337@floridapoly.edu "
+date: '2022-06-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+The Dataset chosen for the Mini Project is "1984-2017 fuel economy data produced during vehicle testing at the Environmental Protection Agency’s (EPA) National Vehicle and Fuel Emissions Laboratory"
+[Fuel Data ](https://raw.githubusercontent.com/reisanar/datasets/master/fuel.csv) 
+
+#### Loading the relevant packages and libraries:
+```{r}
+
+
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+
+library(tidyverse)
+
+install.packages("RColorBrewer")                   
+library("RColorBrewer")
+
+# Load original data
+fuel_data <- read_csv("C:/Users/dhris/OneDrive/Desktop/Notes/Data Visualization/Dhrishya_MiniProject1/data/fuel.csv")
+
+```
+
+
+**Displaying the columns**
+
+```{r}
+str(fuel_data)
+```
+### The Four Main Graphs which have been visualized are as follows: 
+
+1) Graph for the Most Popular Class of Car
+2) Graph for the Most Popular Make of Car
+3) Graph for Most Fuel type used in the most popular make of car
+4) Graph for Annual Cost of Fuel used in the most popular make of car
+
+**We select the required columns and create a new sub-dataset from the original dataset**
+
+```{r}
+fuel_data_new <- fuel_data %>%
+  select(year, class, make, transmission, fuel_type, city_mpg_ft1, highway_mpg_ft1, combined_mpg_ft1, annual_fuel_cost_ft1)
+```
+*Displaying the Column Names of the new sub-dataset*
+
+```{r}
+str(fuel_data_new)
+```
+*Checking for any Null Values present in the sub-dataset*
+```{r}
+sum(is.na(fuel_data_new$year))
+sum(is.na(fuel_data_new$class))
+sum(is.na(fuel_data_new$make))
+sum(is.na(fuel_data_new$transmission))
+sum(is.na(fuel_data_new$fuel_type))
+sum(is.na(fuel_data_new$city_mpg_ft1))
+sum(is.na(fuel_data_new$highway_mpg_ft1))
+sum(is.na(fuel_data_new$combined_mpg_ft1))
+sum(is.na(fuel_data_new$annual_fuel_cost_ft1))
+```
+*Summarizing the columns*
+```{r}
+summary(fuel_data_new)
+nrow(fuel_data_new)
+```
+```{r}
+fuel_data_new <- na.omit(fuel_data_new)
+sum(is.na(fuel_data_new$transmission))
+```
+### First Data Visualization
+
+**Finding the Most Popular Class of Car**
+
+```{r}
+ggplot(fuel_data_new, aes(y = class)) +
+  geom_bar(color="green") +
+  theme_classic() +
+  labs(title = "The Most Popular Class of Car",
+       x = "Count",
+       y = "Class of the Car",
+       caption = "Source: fuel_data_new Dataset")
+  
+
+```
+
+### Second Data Visualization
+**Choosing the popular make of car and filtering it according to class of cars to plot the Histogram**
+
+
+```{r}
+pop_class <- c("Subcompact Cars", "Midsize Cars", "Compact Cars")
+
+pop_class <- fuel_data_new %>% 
+      filter(class %in% pop_class)
+
+pop_class %>%
+  ggplot( aes(x = make)) +
+  geom_bar(position = "dodge") + 
+  theme(axis.text.x = element_text(angle = 90))+
+  labs(title = "The Make of the Cars",
+       subtitle ="Top three Class of Cars",
+       x = "Make of the Car",
+       y = "Total Count") 
+  
+```
+
+
+### Third Data Visualization
+**Choosing the most used type of fuel in the car make "BMW" and plotting the Barchart**
+
+
+```{r}
+pop_make <- c("BMW")
+
+pop_class_make <- pop_class %>% 
+      filter(make %in% pop_make)
+
+summary(pop_class_make)
+str(pop_class_make)
+unique(pop_class_make$class)
+
+```
+
+
+
+```{r}
+pop_class_make %>%
+  ggplot( aes(x = fuel_type, fill=class)) +
+  geom_bar() + 
+  scale_fill_brewer(palette="Spectral") +
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = "Most Used Fuel Type",
+       subtitle ="Top three Class of Cars of the BMW Make",
+       x = "Type of Fuel",
+       y = "Total Count of Cars") 
+```
+
+### Fourth Data Visualization
+**Choosing the Premium type of fuel and plotting the Boxplot for displaying the Annual cost of Fuel**
+
+
+```{r}
+
+pop_fuel <- c("Premium")
+
+pop_cla_mak_fuel <- pop_class_make %>% 
+      filter(fuel_type %in% pop_fuel)
+summary(pop_cla_mak_fuel)
+unique(pop_cla_mak_fuel$fuel_type)
+
+```
+
+
+
+```{r}
+ggplot(data = pop_cla_mak_fuel) + 
+  geom_boxplot(mapping=aes(y=annual_fuel_cost_ft1, group=class, color=class))+
+  labs(title = "Annual Premium Fuel Cost for Cars",
+       subtitle ="Top three Class of Cars of BMW Make",
+       y = "Cost of Fuel in $")  
+
+```
+
+
