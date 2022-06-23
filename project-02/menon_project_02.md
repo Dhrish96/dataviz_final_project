@@ -52,7 +52,7 @@ The code for multiple trace animation is used and a scatter plot is plotted whic
 
 The interactive plot is then saved as a standalone **HTML File** which can be accessed via:
 
-[Birth Data](file:///C:/Users/dhris/OneDrive/Desktop/Notes/Data%20Visualization/Mini_Project2_Dhrishya/report/birth_data_figure.html)
+[Birth Data](https://raw.githubusercontent.com/Dhrish96/dataviz_final_project/main/project-02/birth_data_figure.html)
 
 ***
 
@@ -66,7 +66,7 @@ In the initial step the shapefile of the data being used is loaded. The shapefil
 The str() function is used to show the internal structure of dataset. The dataset is then sorted in descending order to help obtain the largest lake in terms of area in the Florida county. geom_sf() is used to display spatial information.
 Initially, the graph is re-projected to a Mollweide CRS using coord_sf(crs = "+proj=moll +ellps=WGS84"), this made the plot to become a bit more difficult to read. 
 
-![Graph for Largest Lake](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Spatial Graph.png)
+![Graph for Largest Lake](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/Areawise_lake.png)
 
 ***
 
@@ -76,6 +76,6 @@ Initially, the graph is re-projected to a Mollweide CRS using coord_sf(crs = "+p
 The dataset is grouped according to year and the number of births is summed up and stored in a new sub dataset which is used to plot the linear regression graph. The "broom" library is used to tidy up the dataset and the linear regression is viewed with the help of summary() and glance() functions. 
 
 
-![Graph for Largest Lake](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Linear regression.png)
+![Graph for Largest Lake](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/linear_regression.png)
 
 ***
