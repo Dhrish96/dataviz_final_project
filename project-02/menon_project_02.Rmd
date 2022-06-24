@@ -26,25 +26,21 @@ library(ggplot2)
 We load the dataset
 ```{r}
 # Load original data
-birth_data <- read_csv("C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Mini_Project2_Dhrishya\\data\\us_births_00_14.csv")
+birth_data <- read_csv("https://raw.githubusercontent.com/Dhrish96/dataviz_final_project/main/data/us_births_00_14.csv")
 ```
 
 Displaying the column names
 ```{r}
-
 colnames(birth_data)
-
 ```
 
 ```{r}
 str(birth_data)
-
 ```
 Displaying the first 10 data of the dataset
 ```{r}
 head(birth_data,10)
 ```
-
 
 *We use the group_by() function and create a new sub dataset from the original dataset and it is also summarised* 
 
@@ -61,7 +57,6 @@ head(Year_month_grp,10)
 library(RColorBrewer)
 library(dplyr)
 library(plotly)
-
 ```
 
 
@@ -130,14 +125,13 @@ The shapefile of the data being used is loaded
 ```{r}
 library(sf)
 
-loc_lakes <- "C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Mini_Project2_Dhrishya\\data\\Florida_Lakes\\Florida_Lakes.shp "
+loc_lakes <- "https://github.com/Dhrish96/dataviz_final_project/blob/main/data/Florida_Lakes.shp"
 
 fla_lakes <- st_read(loc_lakes, quiet = TRUE)
 ```
 
 
 ```{r}
-
 colnames(fla_lakes)
 ```
 
@@ -149,7 +143,6 @@ The first 10 data in the dataset is displayed in descending order
 ```{r}
 fla_lakes[order(-fla_lakes$SHAPEAREA), ]
 ```
-
 
 
 ```{r}
@@ -165,8 +158,6 @@ coord_sf(crs = "+proj=merc") +
 guides(fill=guide_legend(nrow=1)) +
 theme(legend.position="bottom")+
 labs(title = "Areawise distribution of Lake Okeechobee in Palm Beach County", caption="Dataset: fla_lakes")
-
-
 ```
 
 
@@ -205,7 +196,6 @@ glance(linear_reg)
 
 
 ```{r}
-
 ggplot(Year_grp, aes(x = year, y = sum_birth)) +
  geom_point(color="#D55E00", size = 2) +
  geom_smooth(method = "lm", 
