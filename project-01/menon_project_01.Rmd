@@ -14,8 +14,8 @@ The Dataset chosen for the Mini Project is "1984-2017 fuel economy data produced
 [Fuel Data ](https://raw.githubusercontent.com/reisanar/datasets/master/fuel.csv) 
 
 #### Loading the relevant packages and libraries:
-```{r}
 
+```{r}
 
 r = getOption("repos")
 r["CRAN"] = "http://cran.us.r-project.org"
@@ -27,7 +27,7 @@ install.packages("RColorBrewer")
 library("RColorBrewer")
 
 # Load original data
-fuel_data <- read_csv("C:/Users/dhris/OneDrive/Desktop/Notes/Data Visualization/Dhrishya_MiniProject1/data/fuel.csv")
+fuel_data <- read_csv("https://raw.githubusercontent.com/Dhrish96/dataviz_final_project/main/data/fuel.csv")
 
 ```
 
@@ -50,8 +50,8 @@ str(fuel_data)
 fuel_data_new <- fuel_data %>%
   select(year, class, make, transmission, fuel_type, city_mpg_ft1, highway_mpg_ft1, combined_mpg_ft1, annual_fuel_cost_ft1)
 ```
-*Displaying the Column Names of the new sub-dataset*
 
+*Displaying the Column Names of the new sub-dataset*
 ```{r}
 str(fuel_data_new)
 ```
