@@ -33,7 +33,6 @@ library(tidyverse)
 weather_tpa <- read_csv("https://github.com/reisanar/datasets/raw/master/tpa_weather_16_17.csv")
 # random sample 
 sample_n(weather_tpa, 4)
-summary(weather_tpa)
 ```
 See https://www.reisanar.com/slides/relationships-models#10 for a reminder on how to use this dataset with the `lubridate` package for dates and times.
 
@@ -42,12 +41,9 @@ See https://www.reisanar.com/slides/relationships-models#10 for a reminder on ho
 ```{r}
 weather_tpa$month <- sapply(weather_tpa$month,as.factor)
 
-
 weather_tpa$month <- factor(weather_tpa$month,
 levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
 labels = c("January","February","March","April","May","June","July","August","September","October","November","December"))
-
-
 
 ```
 
@@ -58,13 +54,8 @@ labels = c("January","February","March","April","May","June","July","August","Se
 #knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_facet.png")
 
 library("ggplot2")
-library("RColorBrewer")
 library("dplyr")
-
 ```
-
-
-
 
 
 ```{r}
@@ -76,15 +67,12 @@ ggplot(data = weather_tpa, aes(x = max_temp, fill=month)) +
   theme (legend.position = "none")
 
 ```
-
-
-
 Hint: the option `binwidth = 3` was used with the `geom_histogram()` function.
+
 
 (b) Recreate the plot below:
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_density.png")
-
 
 
 ggplot(data = weather_tpa, aes(x = max_temp)) + 
@@ -92,9 +80,9 @@ ggplot(data = weather_tpa, aes(x = max_temp)) +
                kernel="epanechnikov") +
   labs(x = "Maximum Temperature") +
   theme_minimal()
-
 ```
 Hint: check the `kernel` parameter of the `geom_density()` function, and use `bw = 0.5`.
+
 
 (c) Recreate the chart below:
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
@@ -109,9 +97,6 @@ ggplot(data = weather_tpa, aes(x = max_temp, fill=month, alpha=0.5)) +
   labs(title="Density plots for each month in 2016") +
   theme_bw() +
   theme (legend.position = "none") 
-  
-
-
 ```
 Hint: default options for `geom_density()` were used. 
 
@@ -141,10 +126,10 @@ ggplot(weather_tpa, aes(x = max_temp, y=as.factor(month), fill = month)) +
   labs(x = "Maximum Temperature", y = NULL)+
   theme_minimal() +
   theme (legend.position = "none")
-
-
 ```
 Hint: use the`ggridges` package, and the `geom_density_ridges()` function paying close attention to the `quantile_lines` and `quantiles` parameters.
+
+
 (f) Recreate the chart below:
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_ridges_plasma.png")
@@ -153,12 +138,11 @@ ggplot(weather_tpa, aes(x = max_temp, y=month, fill = stat(x))) +
   geom_density_ridges_gradient(scale = 2, quantile_lines = TRUE, quantiles = 2) +
   scale_fill_viridis_c(option="C") +
   labs(x = "Maximum Temperature (in Fahrenheit degrees)") +
-  theme(legend.title = element_blank()) +
+  guides(colour = guide_legend(reverse=T)) +
+  labs(fill="") +
   theme_classic()
 
 ```
-
-
 Hint: this uses the `plasma` option (color scale) for the _viridis_ palette.
 
 
@@ -186,7 +170,6 @@ library(textdata)
 ```
 
 
-
 ```{r}
 comments_data <- read_csv("https://raw.githubusercontent.com/reisanar/datasets/master/rmp_wit_comments.csv")
 head(comments_data, 6)
@@ -211,9 +194,6 @@ stopwords::stopwords(language = "english") %>%
   sample(10)
 ```
 
-```{r}
-
-```
 
 
 
