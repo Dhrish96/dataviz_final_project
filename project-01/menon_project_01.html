@@ -9,25 +9,11 @@ r["CRAN"] = "http://cran.us.r-project.org"
 options(repos = r)
 
 library(tidyverse)
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
-## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
 install.packages("RColorBrewer")                   
-## Installing package into 'C:/Users/dhris/AppData/Local/R/win-library/4.2'
-## (as 'lib' is unspecified)
-## package 'RColorBrewer' successfully unpacked and MD5 sums checked
-## 
-## The downloaded binary packages are in
-##  C:\Users\dhris\AppData\Local\Temp\RtmpOgNXWy\downloaded_packages
 library("RColorBrewer")
 
 # Load original data
-fuel_data <- read_csv("C:/Users/dhris/OneDrive/Desktop/Notes/Data Visualization/Dhrishya_MiniProject1/data/fuel.csv")
+fuel_data <- read_csv("https://raw.githubusercontent.com/Dhrish96/dataviz_final_project/main/data/fuel.csv")
 ## Rows: 38113 Columns: 81
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
