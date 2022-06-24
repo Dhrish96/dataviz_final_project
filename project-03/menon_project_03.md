@@ -27,7 +27,7 @@ output: html_document
 
 
 *The link for the Dataset chosen for recreating the graphs:
-[Tampa Weather Data](https://github.com/reisanar/datasets/raw/master/tpa_weather_16_17.csv)*
+[Tampa Weather Data](https://raw.githubusercontent.com/Dhrish96/dataviz_final_project/main/data/tpa_weather_16_17.csv)*
 
 
 
@@ -40,7 +40,7 @@ The initial step is to convert the numeric columns of "month" into written chara
 
 To obtain the actual graph according to the image given, the function of **facet_wrap** is performed on the column month and the months are divided into different grids and the data is displayed in the form of a histogram. 
 
-![Maximum Temp vs. Days](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\temp vs days_facet.png)
+![Maximum Temp vs. Days](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/temp%20vs%20days_facet.png)
 
 
 ***
@@ -49,7 +49,7 @@ To obtain the actual graph according to the image given, the function of **facet
 
 The second plot is the density plot which is evaluated using the kernel **epanechnikov** and the parameters of bw and lwd which set the bandwidth and line width respectively are also used to plot the graph.
 
-![Density Plot](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\density_kernel.png)
+![Density Plot](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/density_kernel.png)
 
 ***
 
@@ -57,7 +57,7 @@ The second plot is the density plot which is evaluated using the kernel **epanec
 
 The third plot is the density plot along with facet_wrap which is evaluated using the default kernel **gaussian** is used to plot the graph.The legend is omitted from being displayed by using the function *legend.position = "none"*
 
-![Density Plot](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\density_and_facet.png)
+![Density Plot](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/density_and_facet.png)
 
 ***
 
@@ -65,7 +65,7 @@ The third plot is the density plot along with facet_wrap which is evaluated usin
 
 Density ridges is plotted with quantile lines. By default, three lines are drawn, corresponding to the first, second, and third quartile. In the graph we plot only the second quartile is required. 
 
-![Density Plot](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\Density_ridges.png)
+![Density Plot](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/Density_ridges.png)
 
 
 ***
@@ -74,7 +74,7 @@ Density ridges is plotted with quantile lines. By default, three lines are drawn
 
 Density ridges is plotted with quantile lines and the plot showcases the second quartile. The title of the legend is remo0ved and the labels appearing on the legend are also reversed in order 
 
-![Density Plot Plasma](C:\\Users\\dhris\\OneDrive\\Desktop\\Notes\\Data Visualization\\Project_Screenshots\\Density_ridges_plasma.png)
+![Density Plot Plasma](https://github.com/Dhrish96/dataviz_final_project/blob/main/figures/Density_ridges_plasma.png)
 
 
 ***
