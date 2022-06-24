@@ -1,16 +1,27 @@
 ---
 title: "Visualizing Text and Distributions"
-output: 
-  html_document:
-    keep_md: true
-    toc: true
-    toc_float: true
+author: "Dhrishya Menon"
+date: '2022-06-23'
+output: html_document
 ---
 
 # Data Visualization Project 03
 
 
 In this exercise you will explore methods to visualize text data and practice how to recreate charts that show the distributions of a continuous variable. 
+
+```{r}
+#install.packages("viridis")
+library(viridis)
+
+#install.packages("ggridges")
+library(ggridges)
+
+library(forcats)
+library(viridisLite)
+library(lubridate)
+```
+
 
 
 ## Part 1: Density Plots
@@ -22,56 +33,131 @@ library(tidyverse)
 weather_tpa <- read_csv("https://github.com/reisanar/datasets/raw/master/tpa_weather_16_17.csv")
 # random sample 
 sample_n(weather_tpa, 4)
+summary(weather_tpa)
 ```
-
 See https://www.reisanar.com/slides/relationships-models#10 for a reminder on how to use this dataset with the `lubridate` package for dates and times.
-
 
 (a) Recreate the plot below:
 
-```{r, echo = FALSE, out.width="80%", fig.align='center'}
-knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_facet.png")
+```{r}
+weather_tpa$month <- sapply(weather_tpa$month,as.factor)
+
+
+weather_tpa$month <- factor(weather_tpa$month,
+levels = c(1,2,3,4,5,6,7,8,9,10,11,12),
+labels = c("January","February","March","April","May","June","July","August","September","October","November","December"))
+
+
+
 ```
+
+
+
+
+```{r, echo = FALSE, out.width="80%", fig.align='center'}
+#knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_facet.png")
+
+library("ggplot2")
+library("RColorBrewer")
+library("dplyr")
+
+```
+
+
+
+
+
+```{r}
+ggplot(data = weather_tpa, aes(x = max_temp, fill=month)) + 
+  geom_histogram(binwidth = 3, color="white") +
+  facet_wrap(~month) +
+  labs(x = "Maximum Temperatures", y = "No.of Days") + 
+  scale_fill_viridis_d() +
+  theme (legend.position = "none")
+
+```
+
+
 
 Hint: the option `binwidth = 3` was used with the `geom_histogram()` function.
 
 (b) Recreate the plot below:
-
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_density.png")
-```
 
+
+
+ggplot(data = weather_tpa, aes(x = max_temp)) + 
+  geom_density(fill="gray45",lwd = 1, bw=0.5,
+               kernel="epanechnikov") +
+  labs(x = "Maximum Temperature") +
+  theme_minimal()
+
+```
 Hint: check the `kernel` parameter of the `geom_density()` function, and use `bw = 0.5`.
 
 (c) Recreate the chart below:
-
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_density_facet.png")
-```
 
+
+ggplot(data = weather_tpa, aes(x = max_temp, fill=month, alpha=0.5)) + 
+  geom_density(lwd = 1) +
+  facet_wrap(~month)+
+  labs(x = "Maximum Temperatures", y = NULL)+
+  scale_fill_viridis_d()+
+  labs(title="Density plots for each month in 2016") +
+  theme_bw() +
+  theme (legend.position = "none") 
+  
+
+
+```
 Hint: default options for `geom_density()` were used. 
+
 
 (d) Recreate the chart below:
-
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_ridges.png")
-```
 
+
+ggplot(weather_tpa, aes(x = max_temp, y=as.factor(month), fill = month)) +
+  geom_density_ridges_gradient(scale = 1.5, quantile_lines = TRUE, quantiles = 2) +
+  scale_fill_viridis_d() +
+  labs(x = "Maximum Temperature", y = NULL)+
+  theme_minimal() +
+  theme (legend.position = "none")
+```
 Hint: default options for `geom_density()` were used. 
 
-(e) Recreate the plot below:
 
+(e) Recreate the plot below:
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_ridges.png")
+
+ggplot(weather_tpa, aes(x = max_temp, y=as.factor(month), fill = month)) +
+  geom_density_ridges_gradient(scale = 1.5,  quantile_lines = TRUE, quantiles = 2) +
+  scale_fill_viridis_d() +
+  labs(x = "Maximum Temperature", y = NULL)+
+  theme_minimal() +
+  theme (legend.position = "none")
+
+
 ```
-
 Hint: use the`ggridges` package, and the `geom_density_ridges()` function paying close attention to the `quantile_lines` and `quantiles` parameters.
-
 (f) Recreate the chart below:
-
 ```{r, echo = FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("https://github.com/reisanar/figs/raw/master/tpa_max_temps_ridges_plasma.png")
+
+ggplot(weather_tpa, aes(x = max_temp, y=month, fill = stat(x))) +
+  geom_density_ridges_gradient(scale = 2, quantile_lines = TRUE, quantiles = 2) +
+  scale_fill_viridis_c(option="C") +
+  labs(x = "Maximum Temperature (in Fahrenheit degrees)") +
+  theme(legend.title = element_blank()) +
+  theme_classic()
+
 ```
+
 
 Hint: this uses the `plasma` option (color scale) for the _viridis_ palette.
 
@@ -79,19 +165,55 @@ Hint: this uses the `plasma` option (color scale) for the _viridis_ palette.
 
 
 ## Part 2: Visualizing Text Data
-
 Review the set of slides (and additional resources linked in it) for visualizing text data: https://www.reisanar.com/slides/text-viz#1
 
 Choose any dataset with text data, and create at least one visualization with it. For example, you can create a frequency count of most used bigrams, a sentiment analysis of the text data, a network visualization of terms commonly used together, and/or a visualization of a topic modeling approach to the problem of identifying words/documents associated to different topics in the text data you decide to use. 
-
 Make sure to include a copy of the dataset in the `data/` folder, and reference your sources if different from the ones listed below:
-
 - [Billboard Top 100 Lyrics](https://github.com/reisanar/datasets/blob/master/BB_top100_2015.csv)
-
 - [RateMyProfessors comments](https://github.com/reisanar/datasets/blob/master/rmp_wit_comments.csv)
-
 - [FL Poly News 2020](https://github.com/reisanar/datasets/blob/master/poly_news_FL20.csv)
-
 - [FL Poly News 2019](https://github.com/reisanar/datasets/blob/master/poly_news_FL19.csv)
-
 (to get the "raw" data from any of the links listed above, simply click on the `raw` button of the GitHub page and copy the URL to be able to read it in your computer using the `read_csv()` function)
+
+
+
+```{r}
+#install.packages("tidytext")
+library(tidytext)
+#install.packages("textdata")
+library(textdata)
+
+```
+
+
+
+```{r}
+comments_data <- read_csv("https://raw.githubusercontent.com/reisanar/datasets/master/rmp_wit_comments.csv")
+head(comments_data, 6)
+```
+
+```{r}
+
+comments_data_words <- comments_data %>% 
+  unnest_tokens(word, comments) %>% 
+  mutate(
+    course = str_trunc(course, 
+                     width = 15)) %>% 
+  select(word, course) %>% 
+  head()
+```
+
+```{r}
+#install.packages("stopwords")
+library(stopwords)
+
+stopwords::stopwords(language = "english") %>% 
+  sample(10)
+```
+
+```{r}
+
+```
+
+
+
