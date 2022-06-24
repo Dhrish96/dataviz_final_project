@@ -48,4 +48,4 @@ The initial step is to convert the numeric columns of "month" into written chara
 
 ### Moving Forward
 
-_As a beginner studying Data visualization, I learnt a lot regarding the design principles, ggplot, grammar of graphics, spatial visualization, interactive plots, reproducible research etc and it helped me improve my coding skills. I intend to keep learning and practising on different datasetsmoving forward_
+_As a beginner studying Data visualization, I learnt a lot regarding the design principles, ggplot, grammar of graphics, spatial visualization, interactive plots, reproducible research etc and it helped me improve my coding skills. I intend to keep learning and practising on different datasets moving forward_
